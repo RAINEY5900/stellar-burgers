@@ -23,7 +23,9 @@ export const orderBurger = createAsyncThunk(
   'constructor/orderBurger',
   async (ingredientIds: string[]) => {
     const res = await orderBurgerApi(ingredientIds);
-    return res.order as unknown as TOrder;
+    const { _id, status, name, createdAt, updatedAt, number } = res.order;
+    const order: TOrder = { _id, status, name, createdAt, updatedAt, number, ingredients: ingredientIds };
+    return order;
   }
 );
 
@@ -45,7 +47,7 @@ const constructorSlice = createSlice({
     },
     removeIngredient(state, action: PayloadAction<string>) {
       state.ingredients = state.ingredients.filter(
-        (i) => i.id !== action.payload
+        (ingredient) => ingredient.id !== action.payload
       );
     },
     moveIngredient(
@@ -97,15 +99,18 @@ export const {
 
 export default constructorSlice.reducer;
 
-export const selectConstructorItems = (state: {
+export const selectConstructorBun = (state: {
   burgerConstructor: TConstructorState;
-}) => ({
-  bun: state.burgerConstructor.bun,
-  ingredients: state.burgerConstructor.ingredients
-});
+}) => state.burgerConstructor.bun;
+
+export const selectConstructorIngredients = (state: {
+  burgerConstructor: TConstructorState;
+}) => state.burgerConstructor.ingredients;
+
 export const selectOrderRequest = (state: {
   burgerConstructor: TConstructorState;
 }) => state.burgerConstructor.orderRequest;
+
 export const selectOrderModalData = (state: {
   burgerConstructor: TConstructorState;
 }) => state.burgerConstructor.orderModalData;

@@ -25,7 +25,16 @@ const initialState: TUserState = {
   error: null
 };
 
-export const fetchUser = createAsyncThunk('user/fetchUser', getUserApi);
+export const fetchUser = createAsyncThunk(
+  'user/fetchUser',
+  async (_, { dispatch }) => {
+    if (!getCookie('accessToken')) {
+      dispatch(setAuthChecked(true));
+      return null;
+    }
+    return getUserApi();
+  }
+);
 
 export const loginUser = createAsyncThunk(
   'user/login',
@@ -76,7 +85,9 @@ const userSlice = createSlice({
       })
       .addCase(fetchUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload.user;
+        if (action.payload) {
+          state.user = action.payload.user;
+        }
         state.isAuthChecked = true;
       })
       .addCase(fetchUser.rejected, (state) => {

@@ -4,7 +4,8 @@ import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useDispatch, useSelector } from '../../services/store';
 import {
-  selectConstructorItems,
+  selectConstructorBun,
+  selectConstructorIngredients,
   selectOrderRequest,
   selectOrderModalData,
   orderBurger,
@@ -15,21 +16,24 @@ import { selectUser } from '../../services/slices/userSlice';
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const constructorItems = useSelector(selectConstructorItems);
+  const bun = useSelector(selectConstructorBun);
+  const ingredients = useSelector(selectConstructorIngredients);
   const orderRequest = useSelector(selectOrderRequest);
   const orderModalData = useSelector(selectOrderModalData);
   const user = useSelector(selectUser);
 
+  const constructorItems = { bun, ingredients };
+
   const onOrderClick = () => {
-    if (!constructorItems.bun || orderRequest) return;
+    if (!bun || orderRequest) return;
     if (!user) {
       navigate('/login');
       return;
     }
     const ingredientIds = [
-      constructorItems.bun._id,
-      ...constructorItems.ingredients.map((i) => i._id),
-      constructorItems.bun._id
+      bun._id,
+      ...ingredients.map((ingredient) => ingredient._id),
+      bun._id
     ];
     dispatch(orderBurger(ingredientIds));
   };
@@ -40,12 +44,13 @@ export const BurgerConstructor: FC = () => {
 
   const price = useMemo(
     () =>
-      (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
-      constructorItems.ingredients.reduce(
-        (s: number, v: TConstructorIngredient) => s + v.price,
+      (bun ? bun.price * 2 : 0) +
+      ingredients.reduce(
+        (sum: number, ingredient: TConstructorIngredient) =>
+          sum + ingredient.price,
         0
       ),
-    [constructorItems]
+    [bun, ingredients]
   );
 
   return (

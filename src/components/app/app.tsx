@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react';
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import '../../index.css';
 import styles from './app.module.css';
@@ -22,9 +22,18 @@ import {
   ResetPassword
 } from '@pages';
 
-import { useDispatch, useSelector } from '../../services/store';
+import { useDispatch } from '../../services/store';
 import { fetchUser } from '../../services/slices/userSlice';
 import { fetchIngredients } from '../../services/slices/ingredientsSlice';
+
+const OrderModal: FC<{ onClose: () => void }> = ({ onClose }) => {
+  const { number } = useParams<{ number: string }>();
+  return (
+    <Modal title={`#${number}`} onClose={onClose}>
+      <OrderInfo />
+    </Modal>
+  );
+};
 
 const App: FC = () => {
   const dispatch = useDispatch();
@@ -112,11 +121,7 @@ const App: FC = () => {
         <Routes>
           <Route
             path='/feed/:number'
-            element={
-              <Modal title='Детали заказа' onClose={handleModalClose}>
-                <OrderInfo />
-              </Modal>
-            }
+            element={<OrderModal onClose={handleModalClose} />}
           />
           <Route
             path='/ingredients/:id'
@@ -130,9 +135,7 @@ const App: FC = () => {
             path='/profile/orders/:number'
             element={
               <ProtectedRoute>
-                <Modal title='Детали заказа' onClose={handleModalClose}>
-                  <OrderInfo />
-                </Modal>
+                <OrderModal onClose={handleModalClose} />
               </ProtectedRoute>
             }
           />
