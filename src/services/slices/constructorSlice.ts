@@ -24,7 +24,15 @@ export const orderBurger = createAsyncThunk(
   async (ingredientIds: string[]) => {
     const res = await orderBurgerApi(ingredientIds);
     const { _id, status, name, createdAt, updatedAt, number } = res.order;
-    const order: TOrder = { _id, status, name, createdAt, updatedAt, number, ingredients: ingredientIds };
+    const order: TOrder = {
+      _id,
+      status,
+      name,
+      createdAt,
+      updatedAt,
+      number,
+      ingredients: ingredientIds
+    };
     return order;
   }
 );

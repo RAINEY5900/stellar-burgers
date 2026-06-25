@@ -9,7 +9,7 @@ import {
   TRegisterData
 } from '@api';
 import { TUser } from '@utils-types';
-import { setCookie, deleteCookie } from '../../utils/cookie';
+import { setCookie, deleteCookie, getCookie } from '../../utils/cookie';
 
 type TUserState = {
   user: TUser | null;

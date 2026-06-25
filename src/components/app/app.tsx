@@ -1,5 +1,11 @@
 import { FC, useEffect } from 'react';
-import { Routes, Route, useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+  useParams
+} from 'react-router-dom';
 
 import '../../index.css';
 import styles from './app.module.css';
