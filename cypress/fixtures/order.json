@@ -1,0 +1,18 @@
+{
+  "success": true,
+  "name": "Космический бургер",
+  "order": {
+    "_id": "order-test-id",
+    "ingredients": [
+      "60d3b41abdacab0026a733c6",
+      "60d3b41abdacab0026a733c8",
+      "60d3b41abdacab0026a733c6"
+    ],
+    "status": "created",
+    "name": "Космический бургер",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z",
+    "number": 54321,
+    "price": 2934
+  }
+}
