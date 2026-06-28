@@ -32,7 +32,9 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              modules: true
+              modules: {
+                localIdentName: '[name]__[local]'
+              }
             }
           }
         ]
@@ -90,6 +92,9 @@ module.exports = {
     compress: true,
     historyApiFallback: true,
     port: 4000,
-    open: true
+    open: true,
+    client: {
+      overlay: false
+    }
   }
 };

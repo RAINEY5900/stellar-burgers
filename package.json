@@ -33,6 +33,7 @@
     "@babel/preset-env": "^7.23.6",
     "@babel/preset-react": "^7.23.3",
     "@babel/preset-typescript": "^7.23.3",
+    "@playwright/test": "^1.61.1",
     "@storybook/addon-essentials": "^7.6.10",
     "@storybook/addon-interactions": "^7.6.10",
     "@storybook/addon-links": "^7.6.10",
@@ -94,7 +95,9 @@
     "format": "prettier ./src --write",
     "test": "jest",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run",
+    "playwright": "playwright test",
+    "playwright:ui": "playwright test --ui"
   },
   "eslintConfig": {
     "extends": [
