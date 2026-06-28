@@ -21,7 +21,7 @@ test.describe('Добавление ингредиентов в конструк
     const bunItem = page.locator('li').filter({ hasText: BUN_NAME }).first();
     await bunItem.getByRole('button').click();
 
-    const constructor = page.locator('[class*="BurgerConstructor"]');
+    const constructor = page.locator('[data-testid="burgerConstructor"]');
     await expect(constructor).toContainText(`${BUN_NAME} (верх)`);
     await expect(constructor).toContainText(`${BUN_NAME} (низ)`);
   });
@@ -35,7 +35,7 @@ test.describe('Добавление ингредиентов в конструк
       .first();
     await fillingItem.getByRole('button').click();
 
-    const constructor = page.locator('[class*="BurgerConstructor"]');
+    const constructor = page.locator('[data-testid="burgerConstructor"]');
     await expect(constructor).toContainText(FILLING_NAME);
   });
 });
@@ -44,7 +44,7 @@ test.describe('Модальное окно ингредиента', () => {
   test('открывает модальное окно при клике на ингредиент', async ({ page }) => {
     await page.locator('li').filter({ hasText: BUN_NAME }).first().click();
 
-    const modal = page.locator('[class*="modal"]');
+    const modal = page.locator('[data-testid="modal"]');
     await expect(modal).toBeVisible();
     await expect(modal).toContainText('Детали ингредиента');
     await expect(modal).toContainText(BUN_NAME);
@@ -55,7 +55,7 @@ test.describe('Модальное окно ингредиента', () => {
   }) => {
     await page.locator('li').filter({ hasText: BUN_NAME }).first().click();
 
-    const modal = page.locator('[class*="modal"]');
+    const modal = page.locator('[data-testid="modal"]');
     await expect(modal).toContainText(BUN_NAME);
     await expect(modal).toContainText(BUN_CALORIES);
   });
@@ -63,7 +63,7 @@ test.describe('Модальное окно ингредиента', () => {
   test('закрывает модальное окно по кнопке X', async ({ page }) => {
     await page.locator('li').filter({ hasText: BUN_NAME }).first().click();
 
-    const modal = page.locator('[class*="modal"]');
+    const modal = page.locator('[data-testid="modal"]');
     await expect(modal).toBeVisible();
 
     await modal.getByRole('button').first().click();
@@ -74,10 +74,10 @@ test.describe('Модальное окно ингредиента', () => {
   test('закрывает модальное окно по клику на оверлей', async ({ page }) => {
     await page.locator('li').filter({ hasText: BUN_NAME }).first().click();
 
-    const modal = page.locator('[class*="modal"]');
+    const modal = page.locator('[data-testid="modal"]');
     await expect(modal).toBeVisible();
 
-    await page.locator('[class*="overlay"]').click({ force: true });
+    await page.mouse.click(10, 10);
 
     await expect(modal).not.toBeVisible();
   });
@@ -119,7 +119,7 @@ test.describe('Создание заказа', () => {
 
     await page.getByRole('button', { name: 'Оформить заказ' }).click();
 
-    const modal = page.locator('[class*="modal"]');
+    const modal = page.locator('[data-testid="modal"]');
     await expect(modal).toBeVisible();
     await expect(modal).toContainText(ORDER_NUMBER);
   });
@@ -136,13 +136,13 @@ test.describe('Создание заказа', () => {
 
     await page.getByRole('button', { name: 'Оформить заказ' }).click();
 
-    const modal = page.locator('[class*="modal"]');
+    const modal = page.locator('[data-testid="modal"]');
     await expect(modal).toBeVisible();
 
     await modal.getByRole('button').first().click();
     await expect(modal).not.toBeVisible();
 
-    const constructor = page.locator('[class*="BurgerConstructor"]');
+    const constructor = page.locator('[data-testid="burgerConstructor"]');
     await expect(constructor).not.toContainText(`${BUN_NAME} (верх)`);
     await expect(constructor).not.toContainText(FILLING_NAME);
   });
